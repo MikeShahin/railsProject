@@ -1,0 +1,16 @@
+<%= form_for @post do |f| %>
+        <div>
+ 
+        <%= f.label :title %>
+        <%= f.text_field :title %>
+        <br>
+        <%= f.label :url %>
+        <%= f.url_field :url %>
+        <br>
+        <%= f.label :description %>
+        <%= f.text_area :description %>
+        <br>
+        <%= f.hidden_field :user_id %>
+        <%= f.submit %>
+    </div>
+<% end %>

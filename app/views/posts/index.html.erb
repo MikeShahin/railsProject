@@ -1,0 +1,16 @@
+<h1>welcome</h1>
+
+<% @posts.each do |p| %>
+    <%= p.title %> - <%= p.description %> by <%= p.user_id %>
+<% end %>
+<br>
+<br>
+
+<% if @user %>
+    <%=link_to 'New Post', '/posts/new' %>
+    <%=link_to 'User Page', "/users/#{@user.id}" %>
+    <%=link_to 'Log Out', logout_path %>
+<% else %>
+    <%= link_to 'Log In', signin_path %>
+    <%= link_to 'Sign Up', '/users/new' %>
+<% end %>
