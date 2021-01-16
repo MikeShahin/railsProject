@@ -1,7 +1,7 @@
 <h1>welcome</h1>
 
 <% @posts.each do |p| %>
-    <%= p.title %> - <%= p.description %> by <%= p.user_id %>
+    <%= link_to p.title, post_path(p) %> by <%= p.user.name %> <br>
 <% end %>
 <br>
 <br>

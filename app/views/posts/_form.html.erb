@@ -1,6 +1,5 @@
 <%= form_for @post do |f| %>
-        <div>
- 
+    <div>
         <%= f.label :title %>
         <%= f.text_field :title %>
         <br>
@@ -10,7 +9,7 @@
         <%= f.label :description %>
         <%= f.text_area :description %>
         <br>
-        <%= f.hidden_field :user_id %>
+        <%= f.hidden_field :user_id, value: @user.id %>
         <%= f.submit %>
     </div>
 <% end %>

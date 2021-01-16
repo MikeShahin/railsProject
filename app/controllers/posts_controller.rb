@@ -10,13 +10,17 @@ class PostsController < ApplicationController
     end
 
     def new
-        @post = Post.new
+        if !current_user
+            redirect_to "/"
+        else
+            @post = Post.new
+        end
     end
 
     def create
         @post = Post.new(post_params)
         @post.save
-        redirect_to root_path
+        redirect_to post_path(@post)
     end
 
     def show
