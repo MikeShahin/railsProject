@@ -2,8 +2,14 @@ Rails.application.routes.draw do
 
   root 'posts#index'
   match '/auth/:provider/callback', to: 'sessions#create', via: [:get, :post]
-  resources :posts
+
+  resources :posts do
+    resources :comment, only: [:index, :show, :new, :edit, :destroy]
+  end 
+  
   resources :users
+
+  delete '/posts/:id' => 'posts#destroy'
 
   get '/signin' => 'sessions#new'
   post 'signin' => 'sessions#create'

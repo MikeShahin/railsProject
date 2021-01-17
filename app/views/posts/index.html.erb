@@ -1,10 +1,18 @@
 <h1>welcome</h1>
-
+<ol>
 <% @posts.each do |p| %>
-    <%= link_to p.title, post_path(p) %> by <%= p.user.name %> <br>
+    <li>
+    <% if p.url != "" %>
+        <h3><%= link_to p.title, p.url %></h3>
+    <% else %>
+        <h3><%= link_to p.title, post_path(p) %></h3>
+    <% end %>
+     <%= link_to "comments", post_path(p) %>
+    by <%= link_to p.user.name, user_path(p.user) %></li> <br>
 <% end %>
 <br>
 <br>
+</ol>
 
 <% if @user %>
     <%=link_to 'New Post', '/posts/new' %>

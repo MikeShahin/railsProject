@@ -1,8 +1,14 @@
-<h1>Welcome</h1>
+<h1>User List</h1>
 
-<% @users.each do |u| %>
-    <%= u.name%>
-    <%= u.email%>
-    <br>
-    <br>
+<% if @user.admin %>
+    <% @users.each do |u| %>
+        <%= u.name%>
+        <%= u.email%>
+        <br>
+        <br>
+    <% end %>
+    <a href="/">Go Home</a>
+<% else %>
+    <p>Sorry, you do not have access to this page</p>
+    <a href="/">Go Home</a>
 <% end %>
