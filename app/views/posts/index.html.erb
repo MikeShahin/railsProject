@@ -1,19 +1,4 @@
-<h1>welcome</h1>
-<ol>
-<% @posts.each do |p| %>
-    <li>
-    <% if p.url != "" %>
-        <h3><%= link_to p.title, p.url %></h3>
-    <% else %>
-        <h3><%= link_to p.title, post_path(p) %></h3>
-    <% end %>
-     <%= link_to "comments", post_path(p) %>
-    by <%= link_to p.user.name, user_path(p.user) %></li> <br>
-<% end %>
-<br>
-<br>
-</ol>
-
+<h1>checkitouuuut</h1>
 <% if @user %>
     <%=link_to 'New Post', '/posts/new' %>
     <%=link_to 'User Page', "/users/#{@user.id}" %>
@@ -22,3 +7,19 @@
     <%= link_to 'Log In', signin_path %>
     <%= link_to 'Sign Up', '/users/new' %>
 <% end %>
+<br>
+<br>
+<%= form_tag(root_path, method: "get") do %>
+  <div>
+    <%= select_tag :order, options_for_select(['Newest Posts', 'Oldest Posts']), {prompt: "Sort Posts"} %>
+    <%= submit_tag "Sort", name: nil %>
+  </div>
+<% end %>
+<%= form_tag root_path, method: :get do %>
+  <p>
+    <%= text_field_tag :query, params[:query], placeholder: "Search Posts" %>
+    <%= submit_tag "Search", name: nil %>
+  </p>
+<% end %>
+
+<%= render "display" %>

@@ -3,8 +3,18 @@ class PostsController < ApplicationController
     before_action :set_post, only: [:show, :update, :destroy]
     
     def index
-        if params[:user_id]
-            @posts = User.find(params[user_id]).posts
+        # if params[:user_id]
+        #     @posts = User.find(params[user_id]).posts
+        # else
+        #     @posts = Post.all.order(created_at: :desc)
+        # end
+        if params[:order] == "Newest Posts"
+            @posts = Post.all.order(created_at: :desc)
+        elsif params[:order] == "Oldest Posts"
+            @posts = Post.all.order(created_at: :asc)
+        elsif params[:query] != ""
+            @posts = Post.search(params[:query])
+            render 'index'
         else
             @posts = Post.all.order(created_at: :desc)
         end
