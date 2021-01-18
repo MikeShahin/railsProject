@@ -20,7 +20,11 @@
     </div>
 <% end %>
 <br>
-<p>or</p>
 <div>
-    <%= link_to 'Signin with Google', '/auth/google' %>   
+    <%= link_to('Log in with Github!', '/auth/github/callback') %>
 </div>
+<br>
+<%= link_to 'Create a new account', new_user_path %>
+<br>
+<br>
+<%= link_to 'Go Home', root_path %>   

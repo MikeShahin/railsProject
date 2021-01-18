@@ -10,6 +10,10 @@ class ApplicationController < ActionController::Base
     def admin
         @user.admin
     end
+
+    def logged_in?
+        session[:user_id] != nil
+    end
     # private
 
     

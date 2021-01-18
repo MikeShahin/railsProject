@@ -6,18 +6,23 @@ class SessionsController < ApplicationController
     end
 
     def create
-        if @user = User.find_by(name: params[:name])
+        @user = User.find_by(name: params[:name])
+        if @user && @user.authenticate(params[:password])
             session[:user_id] = @user.id
             redirect_to user_path(@user)            
-        elsif 
-            pp request.env['omniauth.auth']
-            session[:name] = request.env['omniauth.auth']['info']['name']
-            session[:omniauth_data] = request.env['omniauth.auth']
-            redirect_to user_path(@user)
         else
-            message = "Retry Login!"
-            render 'new'
+            render 'new', {alert: "Your Username or Password was invalid"}
         end
+    end
+
+    def github
+        @user = User.find_or_create_by(uid: auth['uid']) do |u|
+        #   u.name = auth['info']['name']
+        #   u.email = auth['info']['email']
+        end
+        binding.pry
+        session[:user_id] = @user.id
+        redirect_to user_path(@user)
     end
 
     def destroy
@@ -25,3 +30,9 @@ class SessionsController < ApplicationController
         redirect_to '/signin'
     end
 end
+
+private
+
+  def auth
+    request.env['omniauth.auth']
+  end

@@ -3,20 +3,13 @@ class PostsController < ApplicationController
     before_action :set_post, only: [:show, :update, :destroy]
     
     def index
-        # if params[:user_id]
-        #     @posts = User.find(params[user_id]).posts
-        # else
-        #     @posts = Post.all.order(created_at: :desc)
-        # end
-        if params[:order] == "Newest Posts"
+        if params[:query] != ""
+            @posts = Post.search(params[:query])
+            render 'index'
+        elsif params[:order] == "Newest Posts" || params[:order] == nil
             @posts = Post.all.order(created_at: :desc)
         elsif params[:order] == "Oldest Posts"
             @posts = Post.all.order(created_at: :asc)
-        elsif params[:query] != ""
-            @posts = Post.search(params[:query])
-            render 'index'
-        else
-            @posts = Post.all.order(created_at: :desc)
         end
     end
 
@@ -30,7 +23,6 @@ class PostsController < ApplicationController
 
     def create
         @post = Post.new(post_params)
-
         if @post.valid?
             @post.save
             redirect_to post_path(@post)
@@ -40,8 +32,13 @@ class PostsController < ApplicationController
     end
 
     def show
-        # @user = User.find_by(id: session[:user_id])
-        @comments = @post.comments
+        if !logged_in?
+            #flash
+            redirect_to signin_path
+        end  
+        @user = User.find_by(id: session[:user_id])
+        @comments = @post.comments.all
+        @comment = @post.comments.new
     end
 
     def edit
@@ -69,10 +66,13 @@ class PostsController < ApplicationController
 
     def set_post
         @post = Post.find_by(id: params[:id])
+        if @post.nil?
+            flash[:error] = "Post does not exist"
+            redirect_to '/'
+        end
     end
     
     def post_params
         params.require(:post).permit(:title, :url, :description, :user_id)
     end
-
 end

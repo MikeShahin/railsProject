@@ -6,12 +6,16 @@ class CommentsController < ApplicationController
 
     def create
       @comment = Comment.new(comment_params)
+      @comment.user_id = session[:user_id]
       if @comment.valid?
         @comment.save
-        redirect_to post_path(@post.id)
+        redirect_back(fallback_location: root_path)
       else
-        render :new
+        redirect_back(fallback_location: root_path)
       end
+    end
+
+    def show
     end
 
     private
